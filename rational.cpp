@@ -1,14 +1,14 @@
 #include "rational.h"
 
-int GCD(int a , int b) {
-   if (b == 0) {
+int GCD(int a, int b) {
+  if (b == 0) {
     return a;
-   }
-   a %= b;
-   return GCD(b,a);
+  }
+  a %= b;
+  return GCD(b, a);
 }
 
-Rational::Rational(int p, int q) { // NOLINT
+Rational::Rational(int p, int q) {  // NSOLINT
   if (q == 0) {
     throw RationalDivisionByZero();
   }
@@ -20,7 +20,7 @@ Rational::Rational(int p, int q) { // NOLINT
     p_ = -p;
   }
 }
-Rational::Rational(int p) { // NOLINT
+Rational::Rational(int p) {  // NOLINT
   p_ = p;
   q_ = 1;
 }

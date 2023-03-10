@@ -1,3 +1,5 @@
+#ifndef RATIONAL_H
+#define RATIONAL_H
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -8,18 +10,18 @@ class RationalDivisionByZero : public std::runtime_error {
   }
 };
 
-int GCD(int a , int b);
+int GCD(int a, int b);
 
 class Rational {
-private:
+  private:
   int p_ = 0;
   int q_ = 1;
 
-public:
+  public:
   void Reduce();
   Rational();
-  Rational(int p); // NOLINT
-  Rational(int p, int q); // NOLINT
+  Rational(int p);         // NOLINT
+  Rational(int p, int q);  // NOLINT
   Rational(const Rational& r);
   int GetNumerator() const;
   int GetDenominator() const;
@@ -50,3 +52,4 @@ bool operator==(const Rational& f, const Rational& s);
 bool operator!=(const Rational& f, const Rational& s);
 std::ostream& operator<<(std::ostream& os, const Rational& val);
 std::istream& operator>>(std::istream& is, Rational& val);
+#endif
