@@ -2,41 +2,36 @@
 #define RATIONAL_H
 #include <iostream>
 #include <string>
-#include <stdexcept>
 
-class RationalDivisionByZero : public std::runtime_error {
- public:
-  RationalDivisionByZero() : std::runtime_error("RationalDivisionByZero") {
-  }
-};
+class RationalDivisionByZero : public std::exception {};
 
-int GCD(int a, int b);
+int32_t GCD(int32_t a, int32_t b);
 
 class Rational {
-  private:
-  int p_ = 0;
-  int q_ = 1;
+ private:
+  int32_t p_ = 0;
+  int32_t q_ = 1;
 
-  public:
-  void Reduce();
+ public:
   Rational();
-  Rational(int p);         // NOLINT
-  Rational(int p, int q);  // NOLINT
+  Rational(int32_t p, int32_t q);  // NOLINT
+  Rational(int32_t p);             // NOLINT
   Rational(const Rational& r);
-  int GetNumerator() const;
-  int GetDenominator() const;
-  void SetNumerator(int p);
-  void SetDenominator(int q);
+  void Reduce();
+  int32_t GetNumerator() const;
+  int32_t GetDenominator() const;
+  void SetNumerator(int32_t p);
+  void SetDenominator(int32_t q);
   Rational& operator+=(const Rational& other);
   Rational& operator-=(const Rational& other);
   Rational& operator*=(const Rational& other);
   Rational& operator/=(const Rational& other);
 
   Rational& operator++();
-  Rational operator++(int);
+  Rational operator++(int32_t);
 
   Rational& operator--();
-  Rational operator--(int);
+  Rational operator--(int32_t);
 };
 Rational operator+(Rational copy);
 Rational operator-(Rational copy);

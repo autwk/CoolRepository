@@ -1,26 +1,26 @@
 #include "rational.h"
 
-int GCD(int a, int b) {
+int32_t GCD(int32_t a, int32_t b) {
   if (b == 0) {
     return a;
   }
   a %= b;
   return GCD(b, a);
 }
-
-Rational::Rational(int p, int q) {  // NSOLINT
+Rational::Rational() = default;
+Rational::Rational(int32_t p, int32_t q) {  // NOLINT
   if (q == 0) {
     throw RationalDivisionByZero();
   }
   p_ = p;
   q_ = q;
   Reduce();
-  if (q < 0) {
-    q_ = -q;
-    p_ = -p;
+  if (q_ < 0) {
+    q_ = -q_;
+    p_ = -p_;
   }
 }
-Rational::Rational(int p) {  // NOLINT
+Rational::Rational(int32_t p) {  // NOLINT
   p_ = p;
   q_ = 1;
 }
@@ -31,7 +31,7 @@ Rational::Rational(const Rational& r) {
 }
 
 void Rational::Reduce() {
-  int gcd = GCD(p_, q_);
+  int32_t gcd = GCD(p_, q_);
   p_ /= gcd;
   q_ /= gcd;
   if (q_ < 0) {
@@ -40,19 +40,19 @@ void Rational::Reduce() {
   }
 }
 
-int Rational::GetNumerator() const {
+int32_t Rational::GetNumerator() const {
   return p_;
 }
-int Rational::GetDenominator() const {
+int32_t Rational::GetDenominator() const {
   return q_;
 }
-void Rational::SetNumerator(int p) {
-  this->p_ = p;
+void Rational::SetNumerator(int32_t p) {
+  p_ = p;
   Reduce();
 }
-void Rational::SetDenominator(int q) {
+void Rational::SetDenominator(int32_t q) {
   if (q != 0) {
-    this->q_ = q;
+    q_ = q;
   } else {
     throw RationalDivisionByZero();
   }
@@ -78,17 +78,20 @@ Rational& Rational::operator*=(const Rational& other) {
   return *this;
 }
 Rational& Rational::operator/=(const Rational& other) {
+  if (p_ == 0) {
+    throw RationalDivisionByZero();
+  }
+
   p_ = p_ * other.q_;
   q_ = q_ * other.p_;
   Reduce();
   return *this;
 }
-
 Rational& Rational::operator++() {
   *this += 1;
   return *this;
 }
-Rational Rational::operator++(int) {
+Rational Rational::operator++(int32_t) {
   Rational copy = *this;
   ++*this;
   return copy;
@@ -98,7 +101,7 @@ Rational& Rational::operator--() {
   *this -= 1;
   return *this;
 }
-Rational Rational::operator--(int) {
+Rational Rational::operator--(int32_t) {
   Rational copy = *this;
   --*this;
   return copy;
@@ -127,6 +130,9 @@ Rational operator*(const Rational& first, const Rational& other) {
   return copy;
 }
 Rational operator/(const Rational& first, const Rational& other) {
+  if (other.GetNumerator() == 0) {
+    throw RationalDivisionByZero();
+  }
   Rational copy = first;
   copy /= other;
   return copy;
@@ -160,11 +166,12 @@ std::ostream& operator<<(std::ostream& os, const Rational& val) {
   return os;
 }
 std::istream& operator>>(std::istream& is, Rational& val) {
-  int p = 0, q = 0;
+  int32_t p = 0, q = 0;
   bool p_minus = false, q_minus = false, slash = false;
   std::string in;
-  std::cin >> in;
-  for (int i = 0; i < in.size(); ++i) {
+  is >> in;
+  int size = in.size();
+  for (int i = 0; i < size; ++i) {
     char temp = in[i];
     if (temp == '/') {
       slash = true;
@@ -174,7 +181,7 @@ std::istream& operator>>(std::istream& is, Rational& val) {
       } else {
         p_minus = true;
       }
-    } else {
+    } else if ('0' <= temp && temp <= '9') {
       if (slash) {
         q *= 10;
         q += in[i] - '0';
