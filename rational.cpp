@@ -15,10 +15,6 @@ Rational::Rational(int32_t p, int32_t q) {  // NOLINT
   p_ = p;
   q_ = q;
   Reduce();
-  if (q_ < 0) {
-    q_ = -q_;
-    p_ = -p_;
-  }
 }
 Rational::Rational(int32_t p) {  // NOLINT
   p_ = p;
@@ -51,11 +47,10 @@ void Rational::SetNumerator(int32_t p) {
   Reduce();
 }
 void Rational::SetDenominator(int32_t q) {
-  if (q != 0) {
-    q_ = q;
-  } else {
+  if (q == 0) {
     throw RationalDivisionByZero();
   }
+  q_ = q;
   Reduce();
 }
 
@@ -78,10 +73,9 @@ Rational& Rational::operator*=(const Rational& other) {
   return *this;
 }
 Rational& Rational::operator/=(const Rational& other) {
-  if (p_ == 0) {
+  if (other.p_ == 0) {
     throw RationalDivisionByZero();
   }
-
   p_ = p_ * other.q_;
   q_ = q_ * other.p_;
   Reduce();
