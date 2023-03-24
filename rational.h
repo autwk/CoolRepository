@@ -5,46 +5,54 @@
 
 class RationalDivisionByZero : public std::exception {};
 
-int32_t GCD(int32_t a, int32_t b);
+int GCD(int a, int b);
 
 class Rational {
- private:
-  int32_t p_ = 0;
-  int32_t q_ = 1;
-
  public:
   Rational();
-  Rational(int32_t p, int32_t q);  // NOLINT
-  Rational(int32_t p);             // NOLINT
+  Rational(int p, int q);  // NOLINT
+  Rational(int p);         // NOLINT
   Rational(const Rational& r);
-  void Reduce();
-  int32_t GetNumerator() const;
-  int32_t GetDenominator() const;
-  void SetNumerator(int32_t p);
-  void SetDenominator(int32_t q);
+
+  int GetNumerator() const;
+  int GetDenominator() const;
+
+  void SetNumerator(int p);
+  void SetDenominator(int q);
+
   Rational& operator+=(const Rational& other);
   Rational& operator-=(const Rational& other);
   Rational& operator*=(const Rational& other);
   Rational& operator/=(const Rational& other);
 
   Rational& operator++();
-  Rational operator++(int32_t);
+  Rational operator++(int);
 
   Rational& operator--();
-  Rational operator--(int32_t);
+  Rational operator--(int);
+
+ private:
+  int p_ = 0;
+  int q_ = 1;
+  void Reduce();
 };
+
 Rational operator+(Rational copy);
 Rational operator-(Rational copy);
-Rational operator+(const Rational& first, const Rational& other);
-Rational operator-(const Rational& first, const Rational& other);
-Rational operator*(const Rational& first, const Rational& other);
-Rational operator/(const Rational& first, const Rational& other);
-bool operator<(const Rational& f, const Rational& s);
-bool operator>(const Rational& f, const Rational& s);
-bool operator<=(const Rational& f, const Rational& s);
-bool operator>=(const Rational& f, const Rational& s);
-bool operator==(const Rational& f, const Rational& s);
-bool operator!=(const Rational& f, const Rational& s);
+
+Rational operator+(const Rational& first, const Rational& second);
+Rational operator-(const Rational& first, const Rational& second);
+Rational operator*(const Rational& first, const Rational& second);
+Rational operator/(const Rational& first, const Rational& second);
+
+bool operator<(const Rational& first, const Rational& second);
+bool operator>(const Rational& first, const Rational& second);
+bool operator<=(const Rational& first, const Rational& second);
+bool operator>=(const Rational& first, const Rational& second);
+bool operator==(const Rational& first, const Rational& second);
+bool operator!=(const Rational& first, const Rational& second);
+
 std::ostream& operator<<(std::ostream& os, const Rational& val);
 std::istream& operator>>(std::istream& is, Rational& val);
+
 #endif
