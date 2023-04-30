@@ -2,6 +2,7 @@
 
 size_t Strlen(const char* str) {
   size_t len = 0;
+
   while (*str != 0) {
     ++len;
     ++str;
@@ -31,6 +32,7 @@ int Strncmp(const char* first, const char* second, size_t count) {
 
 char* Strcpy(char* dest, const char* src) {
   char* ptr = dest;
+
   while (*src != 0) {
     *ptr = *src;
     ++ptr;
@@ -43,6 +45,7 @@ char* Strcpy(char* dest, const char* src) {
 
 char* Strncpy(char* dest, const char* src, size_t count) {
   char* ptr = dest;
+
   while (*src != 0 && (count != 0)) {
     *ptr = *src;
     ++ptr;
@@ -60,27 +63,27 @@ char* Strncpy(char* dest, const char* src, size_t count) {
 }
 
 char* Strcat(char* dest, const char* src) {
-  int desl = Strlen(dest);
-  int srcl = Strlen(src);
+  int dest_len = Strlen(dest);
+  int src_len = Strlen(src);
 
-  for (int i = desl; i < desl + srcl; ++i) {
-    dest[i] = src[i - desl];
+  for (int i = desl; i < dest_len + src_len; ++i) {
+    dest[i] = src[i - dest_len];
   }
 
   return dest;
 }
 
 char* Strncat(char* dest, const char* src, size_t count) {
-  int desl = Strlen(dest);
-  int srcl = Strlen(src);
+  int dest_len = Strlen(dest);
+  int src_len = Strlen(src);
   int k = count;
 
-  if (k > srcl) {
+  if (k > src_len) {
     return Strcat(dest, src);
   }
 
-  for (int i = desl; i < desl + k; ++i) {
-    dest[i] = src[i - desl];
+  for (int i = dest_len; i < dest_len + k; ++i) {
+    dest[i] = src[i - dest_len];
   }
 
   return dest;
@@ -96,6 +99,7 @@ const char* Strchr(const char* str, char symbol) {
 
 const char* Strrchr(const char* str, char symbol) {
   const char* ptr = nullptr;
+ 
   while (*str != 0) {
     if (*str == symbol) {
       ptr = str;
@@ -109,8 +113,10 @@ const char* Strrchr(const char* str, char symbol) {
 
 size_t Strspn(const char* dest, const char* src) {
   size_t count = 0;
+
   while (*dest != 0) {
     const char* ptr = src;
+
     while (*ptr != *dest && *ptr != 0) {
       ++ptr;
     }
@@ -118,16 +124,20 @@ size_t Strspn(const char* dest, const char* src) {
     if (*ptr == 0) {
       return count;
     }
+
     ++count;
     ++dest;
   }
+
   return count;
 }
 
 size_t Strcspn(const char* dest, const char* src) {
   size_t count = 0;
+
   while (*dest != 0) {
     const char* ptr = src;
+
     while (*ptr != *dest && *ptr != 0) {
       ++ptr;
     }
@@ -135,15 +145,18 @@ size_t Strcspn(const char* dest, const char* src) {
     if (*ptr != 0) {
       return count;
     }
+ 
     ++count;
     ++dest;
   }
+
   return count;
 }
 
 const char* Strpbrk(const char* dest, const char* breakset) {
   while (*dest != 0) {
     const char* ptr = breakset;
+
     while (*ptr != *dest && *ptr != 0) {
       ++ptr;
     }
@@ -151,8 +164,10 @@ const char* Strpbrk(const char* dest, const char* breakset) {
     if (*ptr != 0) {
       return dest;
     }
+
     ++dest;
   }
+
   return nullptr;
 }
 
