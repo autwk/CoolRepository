@@ -31,15 +31,15 @@ int Strncmp(const char* first, const char* second, size_t count) {
 }
 
 char* Strcpy(char* dest, const char* src) {
-  char* ptr = dest;
+  int i = 0;
 
   while (*src != 0) {
-    *ptr = *src;
-    ++ptr;
+    *(dest + i) = *src;
+    ++i;
     ++src;
   }
 
-  *ptr = '\0';
+  *(dest + i) = '\0';
   return dest;
 }
 
@@ -66,7 +66,7 @@ char* Strcat(char* dest, const char* src) {
   int dest_len = Strlen(dest);
   int src_len = Strlen(src);
 
-  for (int i = desl; i < dest_len + src_len; ++i) {
+  for (int i = dest_len; i < dest_len + src_len; ++i) {
     dest[i] = src[i - dest_len];
   }
 
@@ -99,7 +99,7 @@ const char* Strchr(const char* str, char symbol) {
 
 const char* Strrchr(const char* str, char symbol) {
   const char* ptr = nullptr;
- 
+
   while (*str != 0) {
     if (*str == symbol) {
       ptr = str;
@@ -115,13 +115,13 @@ size_t Strspn(const char* dest, const char* src) {
   size_t count = 0;
 
   while (*dest != 0) {
-    const char* ptr = src;
+    int i = 0;
 
-    while (*ptr != *dest && *ptr != 0) {
-      ++ptr;
+    while (*(src + i) != *dest && *(src + i) != 0) {
+      ++i;
     }
 
-    if (*ptr == 0) {
+    if (*(src + i) == 0) {
       return count;
     }
 
@@ -136,16 +136,16 @@ size_t Strcspn(const char* dest, const char* src) {
   size_t count = 0;
 
   while (*dest != 0) {
-    const char* ptr = src;
+    int i = 0;
 
-    while (*ptr != *dest && *ptr != 0) {
-      ++ptr;
+    while (*(src + i) != *dest && *(src + i) != 0) {
+      ++i;
     }
 
-    if (*ptr != 0) {
+    if (*(src + i) != 0) {
       return count;
     }
- 
+
     ++count;
     ++dest;
   }
@@ -155,13 +155,13 @@ size_t Strcspn(const char* dest, const char* src) {
 
 const char* Strpbrk(const char* dest, const char* breakset) {
   while (*dest != 0) {
-    const char* ptr = breakset;
+    int i = 0;
 
-    while (*ptr != *dest && *ptr != 0) {
-      ++ptr;
+    while (*(breakset + i) != *dest && *(breakset + i) != 0) {
+      ++i;
     }
 
-    if (*ptr != 0) {
+    if (*(breakset + i) != 0) {
       return dest;
     }
 
